@@ -3,9 +3,13 @@ const path = require('path');
 const { engine } = require('express-handlebars');
 
 const indexRouter = require('./app_server/routes/index');
+const db = require('./app_server/db');
 
 const app = express();
 const PORT = 3000;
+
+// Connect to database
+db.connect();
 
 // Set up Handlebars
 app.engine('hbs', engine({
