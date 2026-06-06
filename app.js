@@ -3,6 +3,7 @@ const path = require('path');
 const { engine } = require('express-handlebars');
 
 const indexRouter = require('./app_server/routes/index');
+const apiRouter = require('./app_api/routes/index');
 const db = require('./app_server/db');
 
 const app = express();
@@ -24,8 +25,12 @@ app.set('views', path.join(__dirname, 'app_server', 'views'));
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Parse JSON
+app.use(express.json());
+
 // Routes
 app.use('/', indexRouter);
+app.use('/api', apiRouter);
 
 app.listen(PORT, () => {
   console.log(`Travlr Getaways running at http://localhost:${PORT}`);
