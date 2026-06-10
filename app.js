@@ -2,23 +2,24 @@ const express = require('express');
 const path = require('path');
 const { engine } = require('express-handlebars');
 const cors = require('cors');
+const passport = require('passport');
 
 const indexRouter = require('./app_server/routes/index');
 const apiRouter = require('./app_api/routes/index');
 const db = require('./app_server/db');
+require('./app_api/config/passport');
 
 const app = express();
 const PORT = 3000;
 
-// Connect to database
 db.connect();
 
-// Enable CORS for Angular
 app.use(cors({
-  origin: 'http://localhost:4200'
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Set up Handlebars
 app.engine('hbs', engine({
   extname: '.hbs',
   defaultLayout: 'layout',
@@ -28,13 +29,10 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 
-// Static files
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Parse JSON
 app.use(express.json());
+app.use(passport.initialize());
 
-// Routes
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 

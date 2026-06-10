@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -10,6 +10,8 @@ import { TripListingComponent } from './trip-listing/trip-listing';
 import { TripCardComponent } from './trip-card/trip-card';
 import { AddTripComponent } from './add-trip/add-trip';
 import { EditTripComponent } from './edit-trip/edit-trip';
+import { LoginComponent } from './login/login';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { EditTripComponent } from './edit-trip/edit-trip';
     TripListingComponent,
     TripCardComponent,
     AddTripComponent,
-    EditTripComponent
+    EditTripComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,9 @@ import { EditTripComponent } from './edit-trip/edit-trip';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [App]
 })
 export class AppModule { }

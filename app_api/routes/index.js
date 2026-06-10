@@ -1,16 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const tripsController = require('../controllers/trips');
+const authController = require('../controllers/authentication');
+const { auth } = require('../config/jwt');
 
-router
-  .route('/trips')
-  .get(tripsController.tripsList)
-  .post(tripsController.tripsAddTrip);
+// Auth routes (public)
+router.post('/register', authController.register);
+router.post('/login', authController.login);
 
-router
-  .route('/trips/:tripCode')
-  .get(tripsController.tripsFindByCode)
-  .put(tripsController.tripsUpdateTrip)
-  .delete(tripsController.tripsDeleteTrip);
+// Trip routes
+router.get('/trips', tripsController.tripsList);
+router.get('/trips/:tripCode', tripsController.tripsFindByCode);
+
+// Protected trip routes (require JWT)
+router.post('/trips', auth, tripsController.tripsAddTrip);
+router.put('/trips/:tripCode', auth, tripsController.tripsUpdateTrip);
+router.delete('/trips/:tripCode', auth, tripsController.tripsDeleteTrip);
 
 module.exports = router;
