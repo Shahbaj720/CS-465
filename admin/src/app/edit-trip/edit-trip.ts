@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TripService, Trip } from '../services/trip';
 
@@ -9,12 +9,13 @@ import { TripService, Trip } from '../services/trip';
   standalone: false
 })
 export class EditTripComponent implements OnInit {
-  trip!: Trip;
+  trip: Trip | undefined;
 
   constructor(
     private tripService: TripService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -22,8 +23,8 @@ export class EditTripComponent implements OnInit {
     if (tripCode) {
       this.tripService.getTrip(tripCode).subscribe({
         next: (data: any) => {
-          // API may return array or single object
           this.trip = Array.isArray(data) ? data[0] : data;
+          this.cdr.detectChanges();
         },
         error: (err: any) => {
           console.error('Error fetching trip:', err);
@@ -33,14 +34,16 @@ export class EditTripComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.tripService.updateTrip(this.trip).subscribe({
-      next: () => {
-        this.router.navigate(['trips']);
-      },
-      error: (err: any) => {
-        console.error('Error updating trip:', err);
-      }
-    });
+    if (this.trip) {
+      this.tripService.updateTrip(this.trip).subscribe({
+        next: () => {
+          this.router.navigate(['trips']);
+        },
+        error: (err: any) => {
+          console.error('Error updating trip:', err);
+        }
+      });
+    }
   }
 
   cancel(): void {

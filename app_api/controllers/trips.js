@@ -2,6 +2,7 @@ const Trip = require('../../app_server/models/travlr');
 
 // GET all trips
 const tripsList = async (req, res) => {
+  res.set('Cache-Control', 'no-store');
   try {
     const trips = await Trip.find({});
     if (!trips || trips.length === 0) {
@@ -15,6 +16,7 @@ const tripsList = async (req, res) => {
 
 // GET single trip by code
 const tripsFindByCode = async (req, res) => {
+  res.set('Cache-Control', 'no-store');
   try {
     const trip = await Trip.findOne({ code: req.params.tripCode });
     if (!trip) {
