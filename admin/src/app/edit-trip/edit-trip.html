@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Edit Trip</h1>
+    </div>
+  </div>
+  <div class="row" *ngIf="trip; else loading">
+    <div class="col-md-6">
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label">Code</label>
+          <input type="text" class="form-control"
+            [(ngModel)]="trip.code" name="code" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control"
+            [(ngModel)]="trip.name" name="name" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Length</label>
+          <input type="text" class="form-control"
+            [(ngModel)]="trip.length" name="length" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Start Date</label>
+          <input type="date" class="form-control"
+            [(ngModel)]="trip.start" name="start" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Resort</label>
+          <input type="text" class="form-control"
+            [(ngModel)]="trip.resort" name="resort" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Price Per Person</label>
+          <input type="number" class="form-control"
+            [(ngModel)]="trip.perPerson" name="perPerson" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Image</label>
+          <input type="text" class="form-control"
+            [(ngModel)]="trip.image" name="image" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" rows="4"
+            [(ngModel)]="trip.description" name="description" required>
+          </textarea>
+        </div>
+        <button type="submit" class="btn btn-primary me-2">Update Trip</button>
+        <button type="button" class="btn btn-secondary"
+          (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  </div>
+  <ng-template #loading>
+    <p>Loading trip data...</p>
+  </ng-template>
+</div>

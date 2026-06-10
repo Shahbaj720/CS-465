@@ -1,0 +1,15 @@
+<div class="container mt-4">
+  <div class="row mb-3">
+    <div class="col-12">
+      <h1>Trip Listings</h1>
+      <p>{{ message }}</p>
+      <button class="btn btn-primary" (click)="addTrip()">Add Trip</button>
+    </div>
+  </div>
+  <div class="row">
+    <app-trip-card
+      *ngFor="let trip of trips"
+      [trip]="trip">
+    </app-trip-card>
+  </div>
+</div>

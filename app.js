@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { engine } = require('express-handlebars');
+const cors = require('cors');
 
 const indexRouter = require('./app_server/routes/index');
 const apiRouter = require('./app_api/routes/index');
@@ -11,6 +12,11 @@ const PORT = 3000;
 
 // Connect to database
 db.connect();
+
+// Enable CORS for Angular
+app.use(cors({
+  origin: 'http://localhost:4200'
+}));
 
 // Set up Handlebars
 app.engine('hbs', engine({

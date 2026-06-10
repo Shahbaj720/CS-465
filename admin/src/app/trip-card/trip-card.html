@@ -1,0 +1,19 @@
+<div class="col-md-4 mb-4">
+  <div class="card">
+    <img 
+      class="card-img-top" 
+      src="http://localhost:3000/images/{{trip.image}}" 
+      alt="{{trip.name}}">
+    <div class="card-body">
+      <h5 class="card-title">{{trip.name}}</h5>
+      <p class="card-text">{{trip.description}}</p>
+      <p class="card-text"><strong>Duration:</strong> {{trip.length}}</p>
+      <p class="card-text"><strong>From:</strong> ${{trip.perPerson}} per person</p>
+      <button 
+        class="btn btn-warning" 
+        (click)="editTrip(trip)">
+        Edit Trip
+      </button>
+    </div>
+  </div>
+</div>
